@@ -101,7 +101,7 @@ if (contactForm) {
 const githubIcon = document.querySelector('.github__icon');
 if (githubIcon) {
     githubIcon.addEventListener('click', () => {
-        window.open('https://github.com/Ashishpatel4047/vedawell', '_blank');
+        window.open('https://vedawell.vercel.app/', '_blank');
     });
 }
 
