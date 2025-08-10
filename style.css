@@ -358,35 +358,175 @@ body.dark-theme .experience__item:hover {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
-.projects__item {
-    position: relative;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
-}
-.projects__img img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    transition: transform 0.4s;
-}
-.projects__item:hover .projects__img img {
-    transform: scale(1.1);
-}
-.projects__overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(108, 92, 231, 0.9), rgba(162, 155, 254, 0.7));
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; padding: 1rem;
-    opacity: 0;
-    transition: opacity 0.4s;
-}
-.projects__item:hover .projects__overlay { opacity: 1; }
-.projects__overlay h3, .projects__overlay p, .projects__overlay a { color: white; }
-.projects__overlay h3 { margin-bottom: 0.5rem; }
-.projects__overlay a { font-size: 1.5rem; margin-top: 1rem; }
+/* ====================
+   PROJECTS SECTION ENHANCED
+   ==================== */
 
+.projects__item {
+    cursor: pointer; /* Indica que se puede hacer clic */
+}
+
+.projects__overlay {
+    /* Hacemos la superposición un poco más transparente para ver la imagen */
+    background: linear-gradient(to top, rgba(108, 92, 231, 0.95), rgba(162, 155, 254, 0.75));
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease-in-out;
+}
+
+.projects__item:hover .projects__overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.projects__overlay h3, .projects__overlay p {
+    color: #fff;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.projects__item:hover h3, .projects__item:hover p {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.1s;
+}
+
+.project-links {
+    margin-top: 1.5rem;
+    transform: translateY(10px);
+    opacity: 0;
+    transition: all 0.3s ease-in-out 0.2s; /* Añadimos un retraso */
+}
+
+.projects__item:hover .project-links {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.button-small {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+    margin: 0 0.25rem;
+}
+
+.button-ghost {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.button-ghost:hover {
+    background: #fff;
+    color: var(--first-color);
+}
+
+
+/* ====================
+   MODAL STYLES
+   ==================== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1001; /* Encima de todo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    
+    /* Oculto por defecto */
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s ease;
+}
+
+.modal.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+}
+
+.modal-content {
+    position: relative;
+    background-color: var(--container-color);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    max-width: 800px; /* Ancho máximo del modal */
+    width: 100%;
+    max-height: 90vh; /* Altura máxima */
+    overflow-y: auto; /* Scroll si el contenido es muy largo */
+    z-index: 1002;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    color: var(--text-color);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--first-color);
+}
+
+.modal-img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--first-color);
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 0;
+}
+
+.tech-tag {
+    background-color: rgba(108, 92, 231, 0.1);
+    color: var(--first-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.modal-description {
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.project-links-modal .button-ghost {
+    border-color: var(--first-color);
+    color: var(--first-color);
+}
+.project-links-modal .button-ghost:hover {
+    background-color: var(--first-color);
+    color: #fff;
+}
 .contact__info-item {
     display: flex;
     align-items: center;
