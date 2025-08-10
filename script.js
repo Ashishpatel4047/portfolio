@@ -1,130 +1,163 @@
-// ✅ AOS Initialization with Advanced Settings
-AOS.init({
-    duration: 1000,
-    easing: 'ease-in-out-cubic',
-    once: false,
-    mirror: true, // Repeat animation on scroll
-    offset: 100,
-    anchorPlacement: 'top-bottom'
+/*===== PRELOADER =====*/
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 500);
+    }
 });
 
-// ✅ ScrollReveal with Advanced Effects
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '70px',
-    duration: 1200,
-    delay: 300,
-    reset: false,
-    easing: 'ease-in-out',
-    mobile: true
-});
-
-sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text', {
-    interval: 200,
-    scale: 0.9
-});
-sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img', {
-    delay: 400,
-    origin: 'left',
-    opacity: 0,
-    distance: '100px'
-});
-sr.reveal('.home__social-icon', {
-    interval: 150,
-    origin: 'bottom',
-    rotate: { x: 0, y: 80, z: 0 }
-});
-sr.reveal('.skills__data, .experience__item, .projects__item, .contact__input', {
-    interval: 100,
-    scale: 0.8,
-    rotate: { x: 0, y: 40, z: 0 }
-});
-
-// ✅ Mobile Menu Toggle
-const navMenu = document.getElementById('nav-menu');
-const navToggle = document.getElementById('nav-toggle');
-const navClose = document.getElementById('nav-close');
+/*===== MENU SHOW/HIDE =====*/
+const navMenu = document.getElementById('nav-menu'),
+      navToggle = document.getElementById('nav-toggle'),
+      navLinks = document.querySelectorAll('.nav__link');
 
 if (navToggle) {
     navToggle.addEventListener('click', () => {
-        navMenu?.classList.add('show-menu');
-    });
-}
-if (navClose) {
-    navClose.addEventListener('click', () => {
-        navMenu?.classList.remove('show-menu');
+        navMenu.classList.toggle('show-menu');
     });
 }
 
-// ✅ Remove Menu on Link Click
-document.querySelectorAll('.nav__link').forEach(link =>
-    link.addEventListener('click', () => {
-        navMenu?.classList.remove('show-menu');
-    })
-);
+// Remove menu on link click
+navLinks.forEach(link => link.addEventListener('click', () => {
+    if (navMenu.classList.contains('show-menu')) {
+        navMenu.classList.remove('show-menu');
+    }
+}));
 
-// ✅ Change Header Background on Scroll
-window.addEventListener('scroll', () => {
-    const header = document.getElementById('header');
-    if (header) header.classList.toggle('scroll-header', window.scrollY >= 80);
-});
+/*===== TYPED.JS (Typing Animation) =====*/
+if (document.getElementById('typed-text')) {
+    new Typed('#typed-text', {
+        strings: ["Data Scientist", "ML Engineer", "AI Enthusiast"],
+        typeSpeed: 70,
+        backSpeed: 50,
+        loop: true,
+        backDelay: 2000,
+    });
+}
 
-// ✅ Active Section Highlight on Scroll
+/*===== HEADER BACKGROUND ON SCROLL =====*/
+const header = document.getElementById('header');
+if (header) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY >= 80) header.classList.add('scroll-header');
+        else header.classList.remove('scroll-header');
+    });
+}
+
+/*===== ACTIVE SECTION LINK ON SCROLL =====*/
 const sections = document.querySelectorAll('section[id]');
 window.addEventListener('scroll', () => {
     const scrollY = window.pageYOffset;
+    sections.forEach(current => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 58;
+        const sectionId = current.getAttribute('id');
+        const link = document.querySelector(`.nav__menu a[href*=${sectionId}]`);
 
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 60;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
-        const navLink = document.querySelector(`.nav__menu a[href*="${sectionId}"]`);
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            navLink?.classList.add('active-link');
-        } else {
-            navLink?.classList.remove('active-link');
+        if (link) {
+           if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                link.classList.add('active-link');
+            } else {
+                link.classList.remove('active-link');
+            }
         }
     });
 });
 
-// ✅ Scroll to Top Button
-const scrollTop = document.getElementById('scroll-top');
-window.addEventListener('scroll', () => {
-    scrollTop?.classList.toggle('show-scroll', window.scrollY >= 560);
+/*===== DARK/LIGHT THEME =====*/
+const themeButton = document.getElementById('theme-button');
+const darkTheme = 'dark-theme';
+const iconTheme = 'fa-sun'; // Icon for dark mode
+
+// Previously selected topic (if user selected)
+const selectedTheme = localStorage.getItem('selected-theme');
+const selectedIcon = localStorage.getItem('selected-icon');
+
+const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light';
+const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'fa-sun' : 'fa-moon';
+
+if (selectedTheme) {
+    document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme);
+    themeButton.classList[selectedIcon === 'fa-sun' ? 'add' : 'remove'](iconTheme);
+}
+
+themeButton.addEventListener('click', () => {
+    document.body.classList.toggle(darkTheme);
+    themeButton.classList.toggle(iconTheme);
+    // Swap classes to ensure the correct icon shows
+    if(themeButton.classList.contains(iconTheme)){
+        themeButton.classList.remove('fa-moon');
+        themeButton.classList.add('fa-sun');
+    } else {
+        themeButton.classList.remove('fa-sun');
+        themeButton.classList.add('fa-moon');
+    }
+    localStorage.setItem('selected-theme', getCurrentTheme());
+    localStorage.setItem('selected-icon', getCurrentIcon());
 });
 
-// ✅ Contact Form Validation + Toast
-const contactForm = document.querySelector('.contact__form');
-if (contactForm) {
-    contactForm.addEventListener('submit', e => {
-        e.preventDefault();
-        const name = contactForm.querySelector('[name="name"]')?.value.trim();
-        const email = contactForm.querySelector('[name="email"]')?.value.trim();
-        const subject = contactForm.querySelector('[name="subject"]')?.value.trim();
-        const message = contactForm.querySelector('[name="message"], .contact__textarea')?.value.trim();
 
-        if (!name || !email || !subject || !message) {
-            alert('⚠️ Please fill all fields!');
-            return;
-        }
-
-        alert('✅ Thank you for your message!');
-        contactForm.reset();
+/*===== SCROLL UP BUTTON =====*/
+const scrollUp = document.getElementById('scroll-up');
+if(scrollUp){
+    window.addEventListener('scroll', () => {
+        if (window.scrollY >= 560) scrollUp.classList.add('show-scroll');
+        else scrollUp.classList.remove('show-scroll');
     });
 }
 
-// ✅ GitHub Icon Link
-document.querySelector('.github__icon')?.addEventListener('click', () => {
-    window.open('https://vedawell.vercel.app/', '_blank');
+/*===== AOS INITIALIZATION =====*/
+AOS.init({
+    duration: 1000,
+    easing: 'ease-in-out',
+    once: true, // Animate elements only once
+    mirror: false
 });
 
-// ✅ LinkedIn Icon Link
-document.querySelector('.linkedin__icon')?.addEventListener('click', () => {
-    window.open('https://www.linkedin.com/in/ashish-patel-868231249/', '_blank');
-});
+/*===== CONTACT FORM (WEB3FORMS) =====*/
+const form = document.getElementById('contact-form');
+const formStatus = document.getElementById('form-status');
 
-// ✅ Resume Button
-document.getElementById('resume-btn')?.addEventListener('click', () => {
-    window.open('Ashish patel.doc', '_blank'); // ✅ Update path if required
-});
+if(form){
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        
+        // Check if access key is still the placeholder
+        const accessKey = formData.get("access_key");
+        if (accessKey === "YOUR_ACCESS_KEY_HERE") {
+            formStatus.style.color = 'red';
+            formStatus.textContent = 'Error: Please add your Access Key in the HTML.';
+            return;
+        }
+        
+        formStatus.textContent = 'Sending...';
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                formStatus.style.color = 'green';
+                formStatus.textContent = 'Message sent successfully!';
+                form.reset();
+            } else {
+                formStatus.style.color = 'red';
+                formStatus.textContent = data.message || 'An error occurred.';
+            }
+        } catch (error) {
+            formStatus.style.color = 'red';
+            formStatus.textContent = 'An error occurred while sending the message.';
+        }
+
+        setTimeout(() => {
+            formStatus.textContent = '';
+        }, 5000);
+    });
+}
