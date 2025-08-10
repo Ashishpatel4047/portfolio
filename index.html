@@ -150,70 +150,138 @@
         </section>
         
         <!-- PROJECTS -->
-        <section class="projects section" id="projects">
-            <h2 class="section-title" data-aos="fade-down">Projects</h2>
-            <div class="projects__container bd-grid">
-                 <div class="projects__item" data-aos="zoom-in">
-                    <div class="projects__img">
-                        <!-- Cambia 'src' por la ruta a tu imagen de proyecto -->
-                        <img src="assets/img/project2.jpg" alt="VedaWell System">
-                        <div class="projects__overlay">
-                            <h3>VedaWell System</h3>
-                            <p>Online RAG-based healthcare assistant combining Ayurveda and modern medical insights.</p>
-                            <a href="https://vedawell.vercel.app/" target="_blank" class="projects__link"><i class="fas fa-link"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="projects__item" data-aos="zoom-in">
-                    <div class="projects__img">
-                         <!-- Cambia 'src' por la ruta a tu imagen de proyecto -->
-                        <img src="assets/img/project3.jpg" alt="Fashion Assistant">
-                        <div class="projects__overlay">
-                            <h3>Multi-Modal Fashion Assistant</h3>
-                            <p>Visual assistant using CLIP and SentenceTransformer for image-text understanding.</p>
-                            <a href="https://github.com/Ashishpatel4047/Multimodel-visiual-fashion-assistant-" target="_blank" class="projects__link"><i class="fas fa-link"></i></a>
-                        </div>
-                    </div>
-                </div>
-                 <div class="projects__item" data-aos="zoom-in">
-                    <div class="projects__img">
-                         <!-- Cambia 'src' por la ruta a tu imagen de proyecto -->
-                        <img src="assets/img/project1.jpg" alt="Text-to-Speech System">
-                        <div class="projects__overlay">
-                            <h3>Text-to-Speech System</h3>
-                            <p>Developed at IIT Mandi focused on Indian languages.</p>
-                            <a href="#" class="projects__link"><i class="fas fa-link"></i></a>
-                        </div>
-                    </div>
+        <!-- PROJECTS SECTION -->
+<section class="projects section" id="projects">
+    <h2 class="section-title" data-aos="fade-down">Projects</h2>
+    <div class="projects__container bd-grid">
+
+        <!-- Proyecto 1: VedaWell System -->
+        <div class="projects__item" data-aos="zoom-in" data-modal-target="#modal-project-1">
+            <div class="projects__img">
+                <!-- IMAGEN PRINCIPAL DEL PROYECTO -->
+                <img src="https://placehold.co/600x400/6c5ce7/white?text=VedaWell+System" alt="VedaWell System">
+            </div>
+            <div class="projects__overlay">
+                <h3>VedaWell System</h3>
+                <p>Asistente de salud online basado en RAG.</p>
+                <div class="project-links">
+                    <!-- ENLACE A LA DEMO EN VIVO -->
+                    <a href="https://vedawell.vercel.app/" target="_blank" class="button button-small">Demo en Vivo</a>
+                    <!-- ENLACE A GITHUB -->
+                    <a href="https://github.com/tu-usuario/vedawell" target="_blank" class="button button-small button-ghost">GitHub</a>
                 </div>
             </div>
-        </section>
-        
-        <!-- CONTACT -->
-        <section class="contact section" id="contact">
-            <h2 class="section-title" data-aos="fade-down">Contact Me</h2>
-            <div class="contact__container bd-grid">
-                <div class="contact__info" data-aos="fade-right">
-                    <h3 class="contact__subtitle">Get in Touch</h3>
-                    <div class="contact__info-item"><i class="fas fa-map-marker-alt"></i><span>Jhansi, Uttar Pradesh, India</span></div>
-                    <div class="contact__info-item"><i class="fas fa-envelope"></i><span>ashish7patel12102003@gmail.com</span></div>
-                    <div class="contact__info-item"><i class="fas fa-phone"></i><span>+91 9569114602</span></div>
-                </div>
-                <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="contact__form" data-aos="fade-left">
-                    <!-- ACCIÓN REQUERIDA: Reemplaza con tu Access Key de web3forms.com -->
-                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
-                    
-                    <input type="text" name="name" placeholder="Name" class="contact__input" required>
-                    <input type="email" name="email" placeholder="Email" class="contact__input" required>
-                    <input type="text" name="subject" placeholder="Subject" class="contact__input" required>
-                    <textarea name="message" placeholder="Message" class="contact__input" style="resize: vertical;" required></textarea>
-                    
-                    <button type="submit" class="button contact__button">Send Message</button>
-                    <div id="form-status" style="margin-top: 1rem;"></div>
-                </form>
+        </div>
+
+        <!-- Proyecto 2: Multi-Modal Fashion Assistant -->
+        <div class="projects__item" data-aos="zoom-in" data-modal-target="#modal-project-2">
+            <div class="projects__img">
+                <!-- IMAGEN PRINCIPAL DEL PROYECTO -->
+                <img src="https://placehold.co/600x400/a29bfe/white?text=Fashion+Assistant" alt="Multi-Modal Fashion Assistant">
             </div>
-        </section>
-    </main>
+            <div class="projects__overlay">
+                <h3>Multi-Modal Fashion Assistant</h3>
+                <p>Asistente visual de moda usando CLIP.</p>
+                <div class="project-links">
+                    <!-- Si no tienes demo, puedes ocultar el botón o enlazar al video -->
+                    <a href="#" target="_blank" class="button button-small">Ver Video</a>
+                    <!-- ENLACE A GITHUB -->
+                    <a href="https://github.com/Ashishpatel4047/Multimodel-visiual-fashion-assistant-" target="_blank" class="button button-small button-ghost">GitHub</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyecto 3: Text-to-Speech System -->
+        <div class="projects__item" data-aos="zoom-in" data-modal-target="#modal-project-3">
+            <div class="projects__img">
+                <!-- IMAGEN PRINCIPAL DEL PROYECTO -->
+                <img src="https://placehold.co/600x400/5649c0/white?text=TTS+System" alt="Text-to-Speech System">
+            </div>
+            <div class="projects__overlay">
+                <h3>Text-to-Speech System</h3>
+                <p>Sistema TTS para idiomas de la India.</p>
+                 <div class="project-links">
+                    <a href="#" class="button button-small">Saber Más</a>
+                    <!-- ENLACE A GITHUB -->
+                    <a href="https://github.com/tu-usuario/tts-system" target="_blank" class="button button-small button-ghost">GitHub</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- MODALS PARA LOS PROYECTOS (Añadir esto antes del footer) -->
+
+<!-- Modal para Proyecto 1 -->
+<div class="modal" id="modal-project-1">
+    <div class="modal-overlay"></div>
+    <div class="modal-content" data-aos="fade-up">
+        <span class="modal-close">&times;</span>
+        <img src="https://placehold.co/800x450/6c5ce7/white?text=VedaWell+System" alt="VedaWell System" class="modal-img">
+        <h3 class="modal-title">VedaWell System</h3>
+        <ul class="tech-stack">
+            <li class="tech-tag">React</li>
+            <li class="tech-tag">Node.js</li>
+            <li class="tech-tag">MongoDB</li>
+            <li class="tech-tag">LLM</li>
+            <li class="tech-tag">Vercel</li>
+        </ul>
+        <p class="modal-description">
+            VedaWell es un asistente de salud innovador que combina la sabiduría del Ayurveda con conocimientos médicos modernos. Utilicé un modelo de lenguaje grande (LLM) con una arquitectura RAG (Retrieval-Augmented Generation) para proporcionar respuestas precisas y contextuales. El desafío principal fue integrar dos dominios de conocimiento distintos y asegurar que las recomendaciones fueran seguras y relevantes.
+        </p>
+        <div class="project-links-modal">
+            <a href="https://vedawell.vercel.app/" target="_blank" class="button">Demo en Vivo</a>
+            <a href="https://github.com/tu-usuario/vedawell" target="_blank" class="button button-ghost">Ver Código</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Proyecto 2 -->
+<div class="modal" id="modal-project-2">
+    <div class="modal-overlay"></div>
+    <div class="modal-content" data-aos="fade-up">
+        <span class="modal-close">&times;</span>
+        <img src="https://placehold.co/800x450/a29bfe/white?text=Fashion+Assistant" alt="Fashion Assistant" class="modal-img">
+        <h3 class="modal-title">Multi-Modal Fashion Assistant</h3>
+        <ul class="tech-stack">
+            <li class="tech-tag">Python</li>
+            <li class="tech-tag">PyTorch</li>
+            <li class="tech-tag">CLIP</li>
+            <li class="tech-tag">SentenceTransformer</li>
+            <li class="tech-tag">Gradio</li>
+        </ul>
+        <p class="modal-description">
+            Este proyecto es un asistente de moda que puede entender tanto imágenes como texto. Usando los modelos CLIP y SentenceTransformer, el sistema puede encontrar prendas de vestir similares a una imagen o recomendarlas basándose en una descripción textual. El reto fue optimizar los embeddings para una búsqueda rápida y precisa en un gran catálogo de moda.
+        </p>
+        <div class="project-links-modal">
+            <a href="https://github.com/Ashishpatel4047/Multimodel-visiual-fashion-assistant-" target="_blank" class="button button-ghost">Ver Código en GitHub</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Proyecto 3 -->
+<div class="modal" id="modal-project-3">
+    <div class="modal-overlay"></div>
+    <div class="modal-content" data-aos="fade-up">
+        <span class="modal-close">&times;</span>
+        <img src="https://placehold.co/800x450/5649c0/white?text=TTS+System" alt="TTS System" class="modal-img">
+        <h3 class="modal-title">Text-to-Speech System (Indian Languages)</h3>
+        <ul class="tech-stack">
+            <li class="tech-tag">Python</li>
+            <li class="tech-tag">TensorFlow</li>
+            <li class="tech-tag">Tacotron 2</li>
+            <li class="tech-tag">WaveGlow</li>
+            <li class="tech-tag">Data Augmentation</li>
+        </ul>
+        <p class="modal-description">
+            Como parte de mi internado en IIT Mandi, desarrollé un sistema de Texto a Voz (TTS) de alta calidad enfocado en lenguajes de la India. Implementé y entrené modelos de deep learning como Tacotron 2 para la conversión de texto a espectrogramas y WaveGlow para la síntesis de audio. El mayor desafío fue la recopilación y preprocesamiento de datos para lenguajes con recursos limitados, logrando una síntesis de voz natural y clara.
+        </p>
+        <div class="project-links-modal">
+             <a href="https://github.com/tu-usuario/tts-system" target="_blank" class="button button-ghost">Ver Código en GitHub</a>
+        </div>
+    </div>
+</div>
 
     <!-- FOOTER -->
     <footer class="footer">
