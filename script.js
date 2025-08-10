@@ -1,240 +1,238 @@
 /*
- * SCRIPT SEQUENCE:
- * 1. Initializations (Preloader, Libraries like AOS, Typed.js)
- * 2. UI Component Logic (Menu, Theme Toggler, Modals)
- * 3. Scroll-Based Logic (Header, Active Links, Scroll-Up Button)
- * 4. Form Handling (Contact Form)
+ * SCRIPT SEQUENCE (Final Advanced & Optimized Version):
+ * 1. Main DOMContentLoaded listener.
+ * 2. Object-oriented and modular patterns.
+ * 3. Performance-optimized scroll handling (throttling).
+ * 4. Efficient event handling (delegation).
+ * 5. Advanced A11y (Focus Management).
+ * 6. Behavioral Responsiveness (Adapting JS for mobile).
+ * 7. Dynamic Content Enhancement (Autolinking contacts).
+ * 8. Form State Management.
  */
 
-/*=============================================
-=            INITIALIZATIONS                  =
-=============================================*/
+document.addEventListener('DOMContentLoaded', () => {
 
-/*===== PRELOADER =====*/
-window.addEventListener('load', () => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 500);
-    }
-});
+    /*=============================================
+    =           INITIALIZATIONS & SETUP           =
+    =============================================*/
+    const isMobile = window.innerWidth < 768;
 
-/*===== TYPED.JS (TYPING ANIMATION) =====*/
-if (document.getElementById('typed-text')) {
-    new Typed('#typed-text', {
-        strings: ["Data Scientist", "ML Engineer", "AI Enthusiast"],
-        typeSpeed: 70,
-        backSpeed: 50,
-        loop: true,
-        backDelay: 2000,
+    // Initialize AOS with behavioral responsiveness
+    AOS.init({
+        duration: 1000,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false,
+        disable: isMobile // Desactiva las animaciones en pantallas pequeñas
     });
-}
 
-/*===== AOS (ANIMATE ON SCROLL) INITIALIZATION =====*/
-AOS.init({
-    duration: 1000,
-    easing: 'ease-in-out',
-    once: true, // Animate elements only once
-    mirror: false
-});
-
-
-/*=============================================
-=            UI COMPONENT LOGIC               =
-=============================================*/
-
-/*===== MENU SHOW/HIDE =====*/
-const navMenu = document.getElementById('nav-menu');
-const navToggle = document.getElementById('nav-toggle');
-const navLinks = document.querySelectorAll('.nav__link');
-
-if (navToggle) {
-    navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('show-menu');
-    });
-}
-
-// Remove menu when a link is clicked
-navLinks.forEach(link => link.addEventListener('click', () => {
-    if (navMenu.classList.contains('show-menu')) {
-        navMenu.classList.remove('show-menu');
-    }
-}));
-
-/*===== DARK/LIGHT THEME TOGGLER =====*/
-const themeButton = document.getElementById('theme-button');
-const darkTheme = 'dark-theme';
-const iconTheme = 'fa-sun'; // The icon class when in dark mode
-
-// Check for previously saved user preference in localStorage
-const selectedTheme = localStorage.getItem('selected-theme');
-const selectedIcon = localStorage.getItem('selected-icon');
-
-// Function to get current theme/icon state
-const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dark' : 'light';
-const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'fa-sun' : 'fa-moon';
-
-// On load, apply saved theme if it exists
-if (selectedTheme) {
-    document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme);
-    themeButton.classList[selectedIcon === 'fa-sun' ? 'add' : 'remove'](iconTheme);
-}
-
-// Add click event listener to the theme button
-themeButton.addEventListener('click', () => {
-    // Toggle theme on the body
-    document.body.classList.toggle(darkTheme);
-    // Toggle the icon
-    themeButton.classList.toggle(iconTheme);
-
-    // Swap classes to ensure the correct icon is always ready
-    if (themeButton.classList.contains(iconTheme)) {
-        themeButton.classList.remove('fa-moon');
-        themeButton.classList.add('fa-sun');
-    } else {
-        themeButton.classList.remove('fa-sun');
-        themeButton.classList.add('fa-moon');
+    if (document.getElementById('typed-text')) {
+        new Typed('#typed-text', {
+            strings: ["Data Scientist", "ML Engineer", "AI Enthusiast"],
+            typeSpeed: 70, backSpeed: 50, loop: true, backDelay: 2000
+        });
     }
 
-    // Save the user's choice to localStorage
-    localStorage.setItem('selected-theme', getCurrentTheme());
-    localStorage.setItem('selected-icon', getCurrentIcon());
-});
-
-
-/*===== PROJECT MODAL INTERACTIVITY =====*/
-const openModalButtons = document.querySelectorAll('[data-modal-target]');
-const modals = document.querySelectorAll('.modal');
-
-// Event listener to open a modal
-openModalButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const modal = document.querySelector(button.dataset.modalTarget);
-        if (modal) {
-            modal.classList.add('active');
-            // Prevent body from scrolling when modal is open
-            document.body.style.overflow = 'hidden';
-        }
-    });
-});
-
-// Event listeners to close a modal
-modals.forEach(modal => {
-    const overlay = modal.querySelector('.modal-overlay');
-    const closeButton = modal.querySelector('.modal-close');
-
-    function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto'; // Restore body scroll
-    }
-
-    if (overlay) {
-        overlay.addEventListener('click', closeModal);
-    }
-    if (closeButton) {
-        closeButton.addEventListener('click', closeModal);
-    }
-});
-
-
-/*=============================================
-=            SCROLL-BASED LOGIC               =
-=============================================*/
-
-const sections = document.querySelectorAll('section[id]');
-const header = document.getElementById('header');
-const scrollUp = document.getElementById('scroll-up');
-
-function handleScroll() {
-    const scrollY = window.pageYOffset;
-
-    // Change header background
-    if (header) {
-        if (window.scrollY >= 80) {
-            header.classList.add('scroll-header');
-        } else {
-            header.classList.remove('scroll-header');
-        }
-    }
-
-    // Highlight active section link in nav
-    sections.forEach(current => {
-        const sectionHeight = current.offsetHeight;
-        const sectionTop = current.offsetTop - 58;
-        const sectionId = current.getAttribute('id');
-        const link = document.querySelector(`.nav__menu a[href*=${sectionId}]`);
-
-        if (link) {
-            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                link.classList.add('active-link');
-            } else {
-                link.classList.remove('active-link');
-            }
-        }
-    });
+    /*=============================================
+    =     DYNAMIC CONTENT ENHANCEMENT (NEW)       =
+    =============================================*/
     
-    // Show/hide scroll-to-top button
-    if (scrollUp) {
-        if (scrollY >= 560) {
-            scrollUp.classList.add('show-scroll');
-        } else {
-            scrollUp.classList.remove('show-scroll');
-        }
-    }
-}
+    /**
+     * Finds text nodes that look like emails or phone numbers and wraps them
+     * in clickable `<a>` tags. It's smart enough to avoid re-linking content.
+     */
+    function linkifyContent() {
+        const contentContainer = document.body;
+        
+        // Regex for email addresses and phone numbers
+        const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
+        // This regex is broad for international numbers
+        const phoneRegex = /(?:\+?\d{1,3}[\s-]?)?(?:\(?\d{3}\)?[\s-]?)?\d{3}[\s-]?\d{4,}/g;
 
-// Add a single scroll event listener for better performance
-window.addEventListener('scroll', handleScroll);
+        // Use TreeWalker for efficiently finding all text nodes
+        const walker = document.createTreeWalker(contentContainer, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        const nodesToProcess = [];
 
-
-/*=============================================
-=               FORM HANDLING                 =
-=============================================*/
-
-/*===== CONTACT FORM (WEB3FORMS) =====*/
-const form = document.getElementById('contact-form');
-const formStatus = document.getElementById('form-status');
-
-if (form) {
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const formData = new FormData(form);
-
-        // Check if the access key is still the placeholder
-        const accessKey = formData.get("access_key");
-        if (accessKey === "YOUR_ACCESS_KEY_HERE") {
-            formStatus.style.color = 'red';
-            formStatus.textContent = 'Error: Please add your Access Key in the HTML.';
-            return;
-        }
-
-        formStatus.textContent = 'Sending...';
-
-        try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                formStatus.style.color = 'green';
-                formStatus.textContent = 'Message sent successfully!';
-                form.reset();
-            } else {
-                formStatus.style.color = 'red';
-                formStatus.textContent = data.message || 'An error occurred.';
+        while (node = walker.nextNode()) {
+            // Ignore text inside scripts, styles, and existing links
+            if (node.parentElement.tagName.toUpperCase() !== 'A' &&
+                node.parentElement.tagName.toUpperCase() !== 'SCRIPT' &&
+                node.parentElement.tagName.toUpperCase() !== 'STYLE') {
+                nodesToProcess.push(node);
             }
-        } catch (error) {
-            formStatus.style.color = 'red';
-            formStatus.textContent = 'An error occurred while sending the message.';
         }
+        
+        nodesToProcess.forEach(textNode => {
+            const text = textNode.textContent;
+            let replacementMade = false;
+            
+            // Create a temporary element to build new nodes
+            const fragment = document.createDocumentFragment();
 
-        // Clear the status message after 5 seconds
-        setTimeout(() => {
-            formStatus.textContent = '';
-        }, 5000);
+            let lastIndex = 0;
+            let match;
+            
+            const combinedRegex = new RegExp(`(${emailRegex.source})|(${phoneRegex.source})`, 'gi');
+            
+            while ((match = combinedRegex.exec(text)) !== null) {
+                // Add the text before the match
+                if (match.index > lastIndex) {
+                    fragment.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
+                }
+
+                const link = document.createElement('a');
+                const matchedText = match[0];
+
+                if (new RegExp(emailRegex.source, 'i').test(matchedText)) {
+                    // It's an email
+                    link.href = `mailto:${matchedText}`;
+                } else {
+                    // It's a phone number
+                    link.href = `tel:${matchedText.replace(/[^\d+]/g, '')}`;
+                }
+                link.textContent = matchedText;
+                
+                fragment.appendChild(link);
+                lastIndex = combinedRegex.lastIndex;
+                replacementMade = true;
+            }
+
+            // Add any remaining text
+            if (lastIndex < text.length) {
+                fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+            }
+
+            if (replacementMade) {
+                textNode.parentNode.replaceChild(fragment, textNode);
+            }
+        });
+    }
+
+    // Run the content enhancement after a brief moment to ensure all is rendered
+    setTimeout(linkifyContent, 100);
+
+    /*=============================================
+    =          UI COMPONENT LOGIC (ADVANCED)      =
+    =============================================*/
+    
+    // --- (The rest of the advanced JS code remains the same) ---
+    // (Menu, ThemeManager, ModalManager, Scroll, and Form logic)
+
+    const navMenu = document.getElementById('nav-menu');
+    const navToggle = document.getElementById('nav-toggle');
+    if (navToggle) {
+        navToggle.addEventListener('click', () => navMenu.classList.toggle('show-menu'));
+        document.querySelectorAll('.nav__link').forEach(link => {
+            link.addEventListener('click', () => navMenu.classList.remove('show-menu'));
+        });
+    }
+
+    const themeManager = {
+        themeButton: document.getElementById('theme-button'),
+        darkThemeClass: 'dark-theme',
+        iconThemeClass: 'fa-sun',
+        init() { this.applySavedTheme(); this.themeButton.addEventListener('click', () => this.toggleTheme()); },
+        applySavedTheme() {
+            const savedTheme = localStorage.getItem('selected-theme');
+            if (savedTheme) document.body.classList.toggle(this.darkThemeClass, savedTheme === 'dark');
+        },
+        toggleTheme() { document.body.classList.toggle(this.darkThemeClass); this.saveThemePreference(); },
+        saveThemePreference() { localStorage.setItem('selected-theme', document.body.classList.contains(this.darkThemeClass) ? 'dark' : 'light'); }
+    };
+    if (themeManager.themeButton) themeManager.init();
+
+    const modalManager = {
+        lastFocusedElement: null,
+        init() {
+            document.addEventListener('click', this.handleDocumentClick.bind(this));
+            document.addEventListener('keydown', this.handleKeydown.bind(this));
+        },
+        handleDocumentClick(e) {
+            const openTrigger = e.target.closest('[data-modal-target]');
+            const closeTrigger = e.target.closest('.modal-close, .modal-overlay');
+            if (openTrigger) {
+                e.preventDefault();
+                this.open(document.querySelector(openTrigger.dataset.modalTarget), openTrigger);
+            } else if (closeTrigger) {
+                this.close(closeTrigger.closest('.modal'));
+            }
+        },
+        handleKeydown(e) { if (e.key === 'Escape') this.close(document.querySelector('.modal.active')); },
+        open(modal, trigger) {
+            if (!modal) return;
+            this.lastFocusedElement = trigger;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            modal.querySelector('.modal-content, .modal-close')?.focus();
+        },
+        close(modal) {
+            if (!modal) return;
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            this.lastFocusedElement?.focus();
+        }
+    };
+    modalManager.init();
+
+    /*=============================================
+    =        SCROLL-BASED LOGIC (OPTIMIZED)       =
+    =============================================*/
+    const sections = document.querySelectorAll('section[id]');
+    const header = document.getElementById('header');
+    const scrollUp = document.getElementById('scroll-up');
+    let ticking = false;
+
+    function handleScroll() {
+        const scrollY = window.pageYOffset;
+        if(header) header.classList.toggle('scroll-header', scrollY >= 80);
+        sections.forEach(current => {
+            const link = document.querySelector(`.nav__menu a[href*=${current.id}]`);
+            if(link) link.classList.toggle('active-link', scrollY > current.offsetTop - 58 && scrollY <= current.offsetTop + current.offsetHeight);
+        });
+        if(scrollUp) scrollUp.classList.toggle('show-scroll', scrollY >= 560);
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => { handleScroll(); ticking = false; });
+            ticking = true;
+        }
     });
-}
+
+    /*=============================================
+    =           FORM HANDLING (WITH STATE)        =
+    =============================================*/
+    const form = document.getElementById('contact-form');
+    if (form) {
+        const formStatus = document.getElementById('form-status');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            submitButton.disabled = true;
+            submitButton.style.opacity = '0.7';
+            formStatus.textContent = 'Sending...';
+
+            try {
+                const response = await fetch(this.action, { method: 'POST', body: new FormData(this) });
+                const data = await response.json();
+                if (data.success) {
+                    formStatus.textContent = 'Message sent successfully!';
+                    formStatus.style.color = 'green';
+                    this.reset();
+                } else {
+                    formStatus.textContent = data.message || 'An error occurred.';
+                    formStatus.style.color = 'red';
+                }
+            } catch (error) {
+                formStatus.textContent = 'Network error. Please try again.';
+                formStatus.style.color = 'red';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.style.opacity = '1';
+                setTimeout(() => formStatus.textContent = '', 5000);
+            }
+        });
+    }
+});
